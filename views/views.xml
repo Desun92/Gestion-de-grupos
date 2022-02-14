@@ -1,0 +1,557 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <!--GRUPO-->
+
+    <record model="ir.ui.view" id="gestion_de_grupos_grupo_tree_view">
+      <field name="name">gestion_de_grupos.grupo</field>
+      <field name="model">gestion_de_grupos.grupo</field>
+      <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="email"/>
+        <field name="estilo"/>
+      </tree>
+      </field>
+    </record>
+
+     <record model="ir.ui.view" id="gestion_de_grupos_grupo_form_view">
+      <field name="name">gestion_de_grupos.grupo</field>
+      <field name="model">gestion_de_grupos.grupo</field>
+      <field name="arch" type="xml">
+        <form string="Formulario de grupos">
+            <sheet>
+              <notebook>
+                <page name="primera" string="Datos básicos">
+                  <field name="foto" widget="image"/>
+                  <group colspan="2" col="2">
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="sitioWeb"/>
+                    <field name="estilo"/>
+                    <field name="rider"/>
+                    <field name="representante"/>
+                    <field name="descripcion"/>
+                  </group>
+                </page>
+                <page name="segunda" string="Lista de conciertos programados">
+                  <field name="conciertos"/>
+                </page>
+                <page name="tercera" string="Lista de músicos">
+                  <field name="musicos"/>
+                </page>  
+               </notebook>        
+            </sheet>               
+        </form>
+      </field> 
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_grupo_search_view">
+      <field name="name">gestion_de_grupos.grupo</field>
+      <field name="model">gestion_de_grupos.grupo</field>
+      <field name="arch" type="xml">
+      <search>
+        <field name="estilo" domain_filter="['|',('estilo','ilike',self)]"/>
+        <filter name="group_estilo" string="Agrupar por estilo" context="{'group_by':'estilo'}"/>
+      </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_grupos_kanban_view">
+      <field name="name">gestion_de_grupos.grupo</field>
+      <field name="model">gestion_de_grupos.grupo</field>
+      <field name="arch" type="xml">   
+
+        <kanban class="grupos_kanban">
+            <field name="id"/>
+            <field name="name"/>
+            <field name="sitioWeb"/>
+            <field name="foto"/>
+            <field name="estilo"/>
+          
+           <templates>
+            <t t-name="kanban-box">
+                  <div t-attf-class="oe_kanban_global_click">
+                  <div style="width:50mm; height:50mm;" class="o_kanban_image">
+                  <img style="width:180px; height:180px" t-att-src="kanban_image('gestion_de_grupos.grupo', 'foto', record.id.raw_value)"
+                       alt="Image"/>    
+                        </div>
+                <div class="oe_kanban_details">
+                    <strong style="font-weight:bold;" class="o_kanban_record_title">
+                        <field name="name"/>
+                       </strong>
+                  <div style="font-style: italic;" t-if="record.sitioWeb.value">
+                    <t t-esc="record.sitioWeb.value"/>
+                         </div>
+                  <div style="font-style: italic;" t-if="record.estilo.value">
+                    <t t-esc="record.estilo.value"/>
+                      </div>
+                    </div>
+                </div>
+                   </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <!--RIDER-->
+  
+    <record model="ir.ui.view" id="gestion_de_grupos_rider_tree_view">
+      <field name="name">gestion_de_grupos.rider</field>
+      <field name="model">gestion_de_grupos.rider</field>
+      <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="grupo"/>
+      </tree>
+      </field>
+    </record>
+
+     <record model="ir.ui.view" id="gestion_de_grupos_rider_form_view">
+      <field name="name">gestion_de_grupos.rider</field>
+      <field name="model">gestion_de_grupos.rider</field>
+      <field name="arch" type="xml">
+        <form string="Formulario de riders">
+            <sheet>
+              <notebook>
+                <page name="primera" string="Datos básicos">
+                  <group colspan="2" col="2">
+                    <field name="foto" widget="image"/>
+                  </group>
+                  <group colspan="2" col="2">
+                    <field name="name"/>
+                    <field name="grupo"/>
+                  </group>
+                </page>
+                <page name="segunda" string="Documento en texto">
+                  <group colspan="2" col="2">
+                    <field name="anotaciones"/>
+                  </group>  
+                </page>
+                <page name="tercera" string="Lista de equipos/instrumentos">
+                  <group colspan="2" col="2">
+                    <field name="instrumentos"/>
+                  </group>  
+                </page>   
+               </notebook>        
+            </sheet>               
+        </form>
+      </field> 
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_rider_search_view">
+      <field name="name">gestion_de_grupos.rider</field>
+      <field name="model">gestion_de_grupos.rider</field>
+      <field name="arch" type="xml">
+      <search>
+        <field name="grupo" domain_filter="['|',('grupo','ilike',self)]"/>
+        <filter name="group_grupo" string="Agrupar por grupos" context="{'group_by':'grupo'}"/>
+      </search>
+      </field>
+    </record>
+
+    <!--INSTRUMENTO-->
+
+    <record model="ir.ui.view" id="gestion_de_grupos_instrumento_tree_view">
+      <field name="name">gestion_de_grupos.instrumento</field>
+      <field name="model">gestion_de_grupos.instrumento</field>
+      <field name="arch" type="xml">
+      <tree>
+        <field name="modelo"/>
+        <field name="rider"/>
+      </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_instrumento_form_view">
+      <field name="name">gestion_de_grupos.instrumento</field>
+      <field name="model">gestion_de_grupos.instrumento</field>
+      <field name="arch" type="xml">
+        <form string="Formulario de instrumentos">
+            <sheet>
+              <group colspan="2" col="2">
+                <field name="foto" widget="image"/>
+              </group>
+              <group colspan="2" col="2">
+                <field name="name"/>
+                <field name="modelo"/>
+                <field name="categoria"/>
+                <field name="rider"/>
+               </group>     
+            </sheet>               
+        </form>
+      </field> 
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_instrumento_search_view">
+      <field name="name">gestion_de_grupos.instrumento</field>
+      <field name="model">gestion_de_grupos.instrumento</field>
+      <field name="arch" type="xml">
+      <search>
+        <field name="categoria" domain_filter="['|',('categoria','ilike',self)]"/>
+        <filter name="group_categoria" string="Agrupar por categoria de instrumento" context="{'group_by':'categoria'}"/>
+      </search>
+      </field>
+    </record>
+
+    <!--CONCIERTO-->
+
+    <record model="ir.ui.view" id="gestion_de_grupos_concierto_tree_view">
+      <field name="name">gestion_de_grupos.concierto</field>
+      <field name="model">gestion_de_grupos.concierto</field>
+      <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="fecha"/>
+        <field name="precio"/>
+      </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_concierto_form_view">
+      <field name="name">gestion_de_grupos.concierto</field>
+      <field name="model">gestion_de_grupos.concierto</field>
+      <field name="arch" type="xml">
+        <form string="Formulario de conciertos">
+            <sheet>
+              <notebook>
+                <page name="primera" string="Datos básicos">
+                  <group colspan="2" col="2">
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="precio"/>
+                    <field name="iva"/>
+                    <field name="precioConIva"/>
+                    <field name="recinto"/>
+                  </group>
+                </page>
+                <page name="segunda" string="Lista de grupos">
+                  <group colspan="2" col="2">
+                    <field name="grupos"/>
+                  </group>
+                </page>
+              </notebook>   
+            </sheet>               
+        </form>
+      </field> 
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_concierto_calendar_view">
+      <field name="name">gestion_de_grupos.concierto</field>
+      <field name="model">gestion_de_grupos.concierto</field>
+      <field name="arch" type="xml">
+        <calendar string="Calendario de Conciertos"
+                  date_start="fecha"
+                  date_stop="fecha"
+                  event_open_popup="true"
+                  mode="month"
+                  color="grupos"
+                  quick_add="False">
+              <field name="grupos"/>
+        </calendar>
+      </field>
+    </record>
+
+    <!--RECINTO-->
+
+    <record model="ir.ui.view" id="gestion_de_grupos_recinto_tree_view">
+      <field name="name">gestion_de_grupos.recinto</field>
+      <field name="model">gestion_de_grupos.recinto</field>
+      <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="direccion"/>
+        <field name="capacidad"/>
+      </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_recinto_form_view">
+      <field name="name">gestion_de_grupos.recinto</field>
+      <field name="model">gestion_de_grupos.recinto</field>
+      <field name="arch" type="xml">
+        <form string="Formulario de recintos">
+            <sheet>
+              <notebook>
+                <page name="primera" string="Datos básicos">
+                  <group colspan="2" col="2">
+                    <field name="name"/>
+                    <field name="ciudad"/>
+                    <field name="direccion"/>
+                    <field name="capacidad"/>
+                    <field name="contacto"/>
+                  </group>
+                </page>
+                <page name="segunda" string="Lista de conciertos asignados al recinto">
+                  <field name="concierto"/>
+                </page>  
+              </notebook>       
+            </sheet>               
+        </form>
+      </field> 
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_recinto_search_view">
+      <field name="name">gestion_de_grupos.recinto</field>
+      <field name="model">gestion_de_grupos.recinto</field>
+      <field name="arch" type="xml">
+      <search>
+        <field name="ciudad" domain_filter="['|',('ciudad','ilike',self)]"/>
+        <filter name="group_ciudad" string="Agrupar por ciudad" context="{'group_by':'ciudad'}"/>
+      </search>
+      </field>
+    </record>
+
+    <!--REPRESENTANTE-->
+
+    <record model="ir.ui.view" id="gestion_de_grupos_representante_tree_view">
+      <field name="name">gestion_de_grupos.representante</field>
+      <field name="model">gestion_de_grupos.representante</field>
+      <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="apellidos"/>
+        <field name="email"/>
+      </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_representante_form_view">
+      <field name="name">gestion_de_grupos.representante</field>
+      <field name="model">gestion_de_grupos.representante</field>
+      <field name="arch" type="xml">
+        <form string="Formulario de representantes">
+            <sheet>
+             <notebook>
+                <page name="primera" string="Datos básicos">
+                  <field name="foto" widget="image"/>
+                    <group colspan="2" col="2">
+                      <field name="name"/>
+                      <field name="apellidos"/>
+                      <field name="dni"/>
+                      <field name="telefono"/>
+                      <field name="email"/>
+                      <field name="fechaNacimiento"/>
+                      <field name="nacionalidad"/>
+                      <field name="direccion"/>
+                    </group>
+                </page>
+                <page name="segunda" string="Lista de grupos representados">
+                    <field name="grupo"/>
+                </page>
+              </notebook>      
+            </sheet>               
+        </form>
+      </field> 
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_representante_kanban_view">
+      <field name="name">gestion_de_grupos.representante</field>
+      <field name="model">gestion_de_grupos.representante</field>
+      <field name="arch" type="xml">   
+
+        <kanban class="representante_kanban">
+            <field name="id"/>
+            <field name="name"/>
+            <field name="telefono"/>
+            <field name="foto"/>
+            <field name="email"/>
+          
+           <templates>
+            <t t-name="kanban-box">
+                  <div t-attf-class="oe_kanban_global_click">
+                  <div style="width:50mm; height:50mm;" class="o_kanban_image">
+                  <img style="width:180px; height:180px" t-att-src="kanban_image('gestion_de_grupos.representante', 'foto', record.id.raw_value)"
+                       alt="Image"/>    
+                        </div>
+                <div class="oe_kanban_details">
+                    <strong style="font-weight:bold;" class="o_kanban_record_title">
+                        <field name="name"/>
+                       </strong>
+                  <div style="font-style: italic;" t-if="record.telefono.value">
+                    <t t-esc="record.telefono.value"/>
+                         </div>
+                  <div style="font-style: italic;" t-if="record.email.value">
+                    <t t-esc="record.email.value"/>
+                      </div>
+                    </div>
+                </div>
+                   </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <!--MUSICO-->
+
+    <record model="ir.ui.view" id="gestion_de_grupos_musico_tree_view">
+      <field name="name">gestion_de_grupos.musico</field>
+      <field name="model">gestion_de_grupos.musico</field>
+      <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="apellidos"/>
+        <field name="grupo"/>
+      </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_musico_form_view">
+      <field name="name">gestion_de_grupos.musico</field>
+      <field name="model">gestion_de_grupos.musico</field>
+      <field name="arch" type="xml">
+        <form string="Formulario de representantes">
+            <sheet>
+             <notebook>
+                <page name="primera" string="Datos básicos">
+                  <field name="foto" widget="image"/>
+                    <group colspan="2" col="2">
+                      <field name="name"/>
+                      <field name="apellidos"/>
+                      <field name="dni"/>
+                      <field name="telefono"/>
+                      <field name="email"/>
+                      <field name="fechaNacimiento"/>
+                      <field name="nacionalidad"/>
+                      <field name="direccion"/>
+                    </group>
+                </page>
+                <page name="segunda" string="Lista de grupos pertenecientes">
+                    <field name="grupo"/>
+                </page>
+              </notebook>      
+            </sheet>               
+        </form>
+      </field> 
+    </record>
+
+    <record model="ir.ui.view" id="gestion_de_grupos_musico_kanban_view">
+      <field name="name">gestion_de_grupos.musico</field>
+      <field name="model">gestion_de_grupos.musico</field>
+      <field name="arch" type="xml">   
+
+        <kanban class="musico_kanban">
+            <field name="id"/>
+            <field name="name"/>
+            <field name="telefono"/>
+            <field name="foto"/>
+            <field name="email"/>
+          
+           <templates>
+            <t t-name="kanban-box">
+                  <div t-attf-class="oe_kanban_global_click">
+                  <div style="width:50mm; height:50mm;" class="o_kanban_image">
+                  <img style="width:180px; height:180px" t-att-src="kanban_image('gestion_de_grupos.musico', 'foto', record.id.raw_value)"
+                       alt="Image"/>    
+                        </div>
+                <div class="oe_kanban_details">
+                    <strong style="font-weight:bold;" class="o_kanban_record_title">
+                        <field name="name"/>
+                       </strong>
+                  <div style="font-style: italic;" t-if="record.telefono.value">
+                    <t t-esc="record.telefono.value"/>
+                         </div>
+                  <div style="font-style: italic;" t-if="record.email.value">
+                    <t t-esc="record.email.value"/>
+                      </div>
+                    </div>
+                </div>
+                   </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="action_gestion_de_grupos_grupo">
+      <field name="name">Listado de grupos</field>
+      <field name="res_model">gestion_de_grupos.grupo</field>
+      <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_de_grupos_rider">
+      <field name="name">Listado de riders</field>
+      <field name="res_model">gestion_de_grupos.rider</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_de_grupos_instrumento">
+      <field name="name">Listado de equipos/instrumentos</field>
+      <field name="res_model">gestion_de_grupos.instrumento</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_de_grupos_concierto">
+      <field name="name">Calendario de conciertos</field>
+      <field name="res_model">gestion_de_grupos.concierto</field>
+      <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_de_grupos_recinto">
+      <field name="name">Listado de recintos</field>
+      <field name="res_model">gestion_de_grupos.recinto</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_de_grupos_representante">
+      <field name="name">Listado de representantes</field>
+      <field name="res_model">gestion_de_grupos.representante</field>
+      <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_de_grupos_musico">
+      <field name="name">Listado de músicos</field>
+      <field name="res_model">gestion_de_grupos.musico</field>
+      <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="gestion_de_grupos.action_server">
+      <field name="name">gestion_de_grupos server</field>
+      <field name="model_id" ref="model_gestion_de_grupos_gestion_de_grupos"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+
+    <menuitem name="Gestión de grupos" id="gestion_de_grupos_padre"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Grupos" id="grupos" parent="gestion_de_grupos_padre"/>
+    <menuitem name="Conciertos" id="conciertos" parent="gestion_de_grupos_padre"/>
+    <menuitem name="Representantes" id="representantes" parent="gestion_de_grupos_padre"
+              action="action_gestion_de_grupos_representante"/>
+    <menuitem name="Músicos" id="musicos" parent="gestion_de_grupos_padre"
+              action="action_gestion_de_grupos_musico"/>
+
+    <!-- actions -->
+
+    <menuitem name="Grupos" id="grupos_hijo" parent="grupos"
+              action="action_gestion_de_grupos_grupo"/>
+
+    <menuitem name="Riders" id="riders" parent="grupos"
+              action="action_gestion_de_grupos_rider"/>
+
+    <menuitem name="Instrumentos" id="instrumentos" parent="grupos"
+              action="action_gestion_de_grupos_instrumento"/>
+
+    <menuitem name="Conciertos" id="conciertos_hijo" parent="conciertos"
+              action="action_gestion_de_grupos_concierto"/>
+
+    <menuitem name="Recintos" id="recintos" parent="conciertos"
+              action="action_gestion_de_grupos_recinto"/>
+
+  </data>
+</odoo>
